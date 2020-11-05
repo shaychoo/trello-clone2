@@ -70,7 +70,14 @@ const onDragEnd = (result, columns, setColumns) => {
 function App() {
   const [columns, setColumns] = useState(columnsFromBackend);
   return (
-    <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        height: "90%",
+        marginTop: "40px",
+      }}
+    >
       <DragDropContext
         onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
       >

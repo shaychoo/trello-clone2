@@ -12,6 +12,9 @@ export default class TaskColumn extends Component {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            backgroundColor: "lightgrey",
+            marginRight: "15px",
+            borderRadius: "3px",
           }}
           key={columnId}
         >
@@ -24,9 +27,7 @@ export default class TaskColumn extends Component {
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                     style={{
-                      background: snapshot.isDraggingOver
-                        ? "lightblue"
-                        : "lightgrey",
+                      background: snapshot.isDraggingOver ? "lightblue" : "",
                       padding: 4,
                       width: 250,
                       minHeight: 500,
