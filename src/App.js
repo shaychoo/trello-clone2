@@ -11,7 +11,7 @@ const itemsFromBackend = [
   { id: uuid(), content: "Fifth task" },
 ];
 
-const columnsFromBackend = {
+let columnsFromBackend = {
   [uuid()]: {
     name: "Requested",
     items: itemsFromBackend,
@@ -84,6 +84,17 @@ function App() {
         {Object.entries(columns).map(([columnId, column], index) => {
           return <TaskColumn columnId={columnId} column={column}></TaskColumn>;
         })}
+        <button
+          onClick={() => {
+            columnsFromBackend[uuid()] = {
+              name: " ",
+              items: [],
+            };
+            setColumns(columnsFromBackend);
+          }}
+        >
+          Add Column
+        </button>
       </DragDropContext>
     </div>
   );
