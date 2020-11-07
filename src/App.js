@@ -69,6 +69,19 @@ const onDragEnd = (result, columns, setColumns) => {
 
 function App() {
   const [columns, setColumns] = useState(columnsFromBackend);
+
+  const addCol = () => {
+    const NewCols = {
+      ...columns,
+
+      [uuid()]: {
+        name: " ",
+        items: [],
+      },
+    };
+    setColumns(NewCols);
+  };
+
   return (
     <div
       style={{
@@ -84,17 +97,7 @@ function App() {
         {Object.entries(columns).map(([columnId, column], index) => {
           return <TaskColumn columnId={columnId} column={column}></TaskColumn>;
         })}
-        <button
-          onClick={() => {
-            columnsFromBackend[uuid()] = {
-              name: " ",
-              items: [],
-            };
-            setColumns(columnsFromBackend);
-          }}
-        >
-          Add Column
-        </button>
+        <button onClick={addCol}>Add Column</button>
       </DragDropContext>
     </div>
   );
