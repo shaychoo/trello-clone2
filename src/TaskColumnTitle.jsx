@@ -41,9 +41,9 @@ export default function TaskColumnTitle(props) {
             setEditMode(!editMode);
           }
         }}
-        onBlur={() => {
-          setEditMode(!editMode);
-        }}
+        // onBlur={() => {
+        //   setEditMode(!editMode);
+        // }}
       />
     </>
   );

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Draggable } from "react-beautiful-dnd";
+import TaskColumnTitle from "./TaskColumnTitle";
 
 export default class Task extends Component {
   render() {
@@ -22,7 +23,10 @@ export default class Task extends Component {
                 ...provided.draggableProps.style,
               }}
             >
-              {item.content}
+              <TaskColumnTitle
+                title={item.content}
+                noChange={() => {}}
+              ></TaskColumnTitle>
             </div>
           );
         }}

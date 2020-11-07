@@ -75,7 +75,7 @@ function App() {
       ...columns,
 
       [uuid()]: {
-        name: " ",
+        name: "New Column",
         items: [],
       },
     };
