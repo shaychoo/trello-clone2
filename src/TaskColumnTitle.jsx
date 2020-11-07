@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 export default function TaskColumnTitle(props) {
   const [editMode, setEditMode] = useState(false);
   const [textValue, setTextValue] = useState(props.title);
+  const [inputField, setinputField] = useState({});
 
   useEffect(() => {
     if (!editMode) {
@@ -10,6 +11,9 @@ export default function TaskColumnTitle(props) {
       props.noChange(textValue);
     } else {
       console.log("edit", textValue);
+      setTimeout(() => {
+        inputField.focus();
+      }, 20);
     }
     return () => {};
   }, [editMode]);
@@ -27,6 +31,9 @@ export default function TaskColumnTitle(props) {
         type="text"
         hidden={!editMode}
         defaultValue={props.title}
+        ref={(input) => {
+          setinputField(input);
+        }}
         onChange={(event) => setTextValue(event.target.value)}
         onKeyUp={(event) => {
           if (event.key === "Enter") {
