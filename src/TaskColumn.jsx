@@ -4,6 +4,10 @@ import Task from "./Task";
 import TaskColumnTitle from "./TaskColumnTitle";
 
 export default class TaskColumn extends Component {
+  titleChanged = (newTitle) => {
+    this.props.column.name = newTitle;
+    this.forceUpdate();
+  };
   render() {
     const { columnId, column } = this.props;
     return (
@@ -19,9 +23,11 @@ export default class TaskColumn extends Component {
           }}
           key={columnId}
         >
-          <h2>
-            <TaskColumnTitle title={column.name}></TaskColumnTitle>
-          </h2>
+          <TaskColumnTitle
+            title={column.name}
+            noChange={this.titleChanged}
+          ></TaskColumnTitle>
+
           <div style={{ margin: 8 }}>
             <Droppable droppableId={columnId} key={columnId}>
               {(provided, snapshot) => {

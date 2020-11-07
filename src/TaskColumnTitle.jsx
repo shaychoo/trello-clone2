@@ -1,19 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function TaskColumnTitle(props) {
   const [editMode, setEditMode] = useState(false);
+  const [textValue, setTextValue] = useState(props.title);
+
+  useEffect(() => {
+    if (!editMode) {
+      console.log("needToSave", textValue);
+      props.noChange(textValue);
+    } else {
+      console.log("edit", textValue);
+    }
+    return () => {};
+  }, [editMode]);
   return (
     <>
-      <span hidden={editMode}>{props.title}</span>
-      <input type="text" hidden={!editMode} defaultValue={props.title} />
-
-      <button
+      <h2
+        hidden={editMode}
         onClick={() => {
           setEditMode(!editMode);
         }}
       >
-        {editMode ? "Save" : "Edit"}
-      </button>
+        {props.title}
+      </h2>
+      <input
+        type="text"
+        hidden={!editMode}
+        defaultValue={props.title}
+        onChange={(event) => setTextValue(event.target.value)}
+        onKeyUp={(event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            setEditMode(!editMode);
+          }
+        }}
+        onBlur={() => {
+          setEditMode(!editMode);
+        }}
+      />
     </>
   );
 }
