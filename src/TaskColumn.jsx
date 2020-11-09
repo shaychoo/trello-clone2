@@ -4,18 +4,20 @@ import Task from "./Task";
 import TaskColumnTitle from "./TaskColumnTitle";
 import uuid from "uuid/v4";
 
-
 export default class TaskColumn extends Component {
   titleChanged = (newTitle) => {
     this.props.column.name = newTitle;
     this.forceUpdate();
   };
 
-  addCard = ()=>{
-    this.props.column.items.push( { id: uuid(), content: "New task" },);
+  addCard = () => {
+    this.props.column.items.push({ id: uuid(), content: "New task" });
     this.forceUpdate();
-  }
-
+  };
+  deleteColumn = () => {
+    this.props.deleteMe(this.props.columnId);
+    this.forceUpdate();
+  };
   render() {
     const { columnId, column } = this.props;
     return (
@@ -37,7 +39,7 @@ export default class TaskColumn extends Component {
           ></TaskColumnTitle>
 
           <div style={{ margin: 8 }}>
-            <Droppable droppableId={columnId} key={columnId}>
+            <Droppable droppableId={columnId}>
               {(provided, snapshot) => {
                 return (
                   <div
@@ -51,7 +53,9 @@ export default class TaskColumn extends Component {
                     }}
                   >
                     {column.items.map((item, index) => {
-                      return <Task item={item} index={index}></Task>;
+                      return (
+                        <Task item={item} index={index} key={item.id}></Task>
+                      );
                     })}
                     {provided.placeholder}
                   </div>
@@ -59,6 +63,7 @@ export default class TaskColumn extends Component {
               }}
             </Droppable>
             <button onClick={this.addCard}>add card</button>
+            <button onClick={this.deleteColumn}>delete Col</button>
           </div>
         </div>
       </>
