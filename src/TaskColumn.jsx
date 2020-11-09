@@ -2,12 +2,20 @@ import React, { Component } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import Task from "./Task";
 import TaskColumnTitle from "./TaskColumnTitle";
+import uuid from "uuid/v4";
+
 
 export default class TaskColumn extends Component {
   titleChanged = (newTitle) => {
     this.props.column.name = newTitle;
     this.forceUpdate();
   };
+
+  addCard = ()=>{
+    this.props.column.items.push( { id: uuid(), content: "New task" },);
+    this.forceUpdate();
+  }
+
   render() {
     const { columnId, column } = this.props;
     return (
@@ -50,6 +58,7 @@ export default class TaskColumn extends Component {
                 );
               }}
             </Droppable>
+            <button onClick={this.addCard}>add card</button>
           </div>
         </div>
       </>
