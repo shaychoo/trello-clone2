@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
 import TaskColumn from "./TaskColumn";
@@ -70,6 +70,26 @@ const onDragEnd = (result, columns, setColumns) => {
 function App() {
   const [columns, setColumns] = useState(columnsFromBackend);
 
+  useEffect(() => {
+    let newCol = {};
+    newCol[uuid()] = {
+      name: "New Column",
+      items: [],
+    };
+
+    let savedCols = localStorage.getItem("data") || newCol;
+    console.log("savedCols", savedCols);
+    setColumns(JSON.parse(savedCols));
+
+    return () => {};
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(columns));
+    console.log("Data Saved");
+    return () => {};
+  }, [columns]);
+
   const addCol = () => {
     const NewCols = {
       ...columns,
@@ -91,6 +111,13 @@ function App() {
         marginTop: "40px",
       }}
     >
+      <button
+        onClick={() => {
+          console.log(columns);
+        }}
+      >
+        log
+      </button>
       <DragDropContext
         onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
       >
