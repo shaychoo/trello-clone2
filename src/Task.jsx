@@ -3,6 +3,9 @@ import { Draggable } from "react-beautiful-dnd";
 import TaskColumnTitle from "./TaskColumnTitle";
 
 export default class Task extends Component {
+  deleteTask = () => {
+    this.props.deleteTask(this.props.item.id);
+  };
   render() {
     const { item, index } = this.props;
     return (
@@ -27,6 +30,7 @@ export default class Task extends Component {
                 title={item.content}
                 noChange={() => {}}
               ></TaskColumnTitle>
+              <button onClick={this.deleteTask}>X</button>
             </div>
           );
         }}

@@ -18,6 +18,13 @@ export default class TaskColumn extends Component {
     this.props.deleteMe(this.props.columnId);
     this.forceUpdate();
   };
+
+  deleteTask = (itemId) => {
+    this.props.column.items = this.props.column.items.filter(
+      (item) => item.id !== itemId
+    );
+  };
+
   render() {
     const { columnId, column } = this.props;
     return (
@@ -54,7 +61,12 @@ export default class TaskColumn extends Component {
                   >
                     {column.items.map((item, index) => {
                       return (
-                        <Task item={item} index={index} key={item.id}></Task>
+                        <Task
+                          item={item}
+                          index={index}
+                          key={item.id}
+                          deleteTask={(itemId) => this.deleteTask(itemId)}
+                        ></Task>
                       );
                     })}
                     {provided.placeholder}
