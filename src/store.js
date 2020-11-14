@@ -40,6 +40,8 @@ export const store = createStore({
   deleteColumn: action((state, payload) => {
     delete state.columns[payload];
   }),
-  updateColumnTitle: action((state, payload) => {}),
+  updateColumnTitle: action((state, payload) => {
+    state.columns[payload.columnId].name = payload.title;
+  }),
   //   addTask:action((state,payload) =>{ })
 });

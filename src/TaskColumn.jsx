@@ -7,10 +7,12 @@ import { useStoreActions } from "easy-peasy";
 
 const TaskColumn = (props) => {
   const deleteColumnAction = useStoreActions((actions) => actions.deleteColumn);
+  const updateColumnTitleAction = useStoreActions(
+    (actions) => actions.updateColumnTitle
+  );
 
   const titleChanged = (newTitle) => {
-    props.column.name = newTitle;
-    // forceUpdate();
+    updateColumnTitleAction({ columnId: props.columnId, title: newTitle });
   };
 
   const addCard = () => {
@@ -44,7 +46,9 @@ const TaskColumn = (props) => {
       >
         <TaskColumnTitle
           title={props.column.name}
-          noChange={titleChanged}
+          noChange={(title) => {
+            titleChanged(title);
+          }}
         ></TaskColumnTitle>
 
         <div style={{ margin: 8 }}>
