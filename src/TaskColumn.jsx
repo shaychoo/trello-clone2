@@ -3,82 +3,85 @@ import { Droppable } from "react-beautiful-dnd";
 import Task from "./Task";
 import TaskColumnTitle from "./TaskColumnTitle";
 import uuid from "uuid/v4";
+import { useStoreActions } from "easy-peasy";
 
-export default class TaskColumn extends Component {
-  titleChanged = (newTitle) => {
-    this.props.column.name = newTitle;
-    this.forceUpdate();
+const TaskColumn = (props) => {
+  const deleteColumnAction = useStoreActions((actions) => actions.deleteColumn);
+
+  const titleChanged = (newTitle) => {
+    props.column.name = newTitle;
+    // forceUpdate();
   };
 
-  addCard = () => {
-    this.props.column.items.push({ id: uuid(), content: "New task" });
-    this.forceUpdate();
-  };
-  deleteColumn = () => {
-    this.props.deleteMe(this.props.columnId);
-    this.forceUpdate();
+  const addCard = () => {
+    props.column.items.push({ id: uuid(), content: "New task" });
+    // forceUpdate();
   };
 
-  deleteTask = (itemId) => {
-    this.props.column.items = this.props.column.items.filter(
+  const deleteColumn = () => {
+    deleteColumnAction(props.columnId);
+    //forceUpdate();
+  };
+
+  const deleteTask = (itemId) => {
+    props.column.items = props.column.items.filter(
       (item) => item.id !== itemId
     );
   };
 
-  render() {
-    const { columnId, column } = this.props;
-    return (
-      <>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            backgroundColor: "lightgrey",
-            marginRight: "15px",
-            borderRadius: "3px",
-          }}
-          key={columnId}
-        >
-          <TaskColumnTitle
-            title={column.name}
-            noChange={this.titleChanged}
-          ></TaskColumnTitle>
+  return (
+    <>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          backgroundColor: "lightgrey",
+          marginRight: "15px",
+          borderRadius: "3px",
+        }}
+        key={props.columnId}
+      >
+        <TaskColumnTitle
+          title={props.column.name}
+          noChange={titleChanged}
+        ></TaskColumnTitle>
 
-          <div style={{ margin: 8 }}>
-            <Droppable droppableId={columnId}>
-              {(provided, snapshot) => {
-                return (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{
-                      background: snapshot.isDraggingOver ? "lightblue" : "",
-                      padding: 4,
-                      width: 250,
-                      minHeight: 500,
-                    }}
-                  >
-                    {column.items.map((item, index) => {
-                      return (
-                        <Task
-                          item={item}
-                          index={index}
-                          key={item.id}
-                          deleteTask={(itemId) => this.deleteTask(itemId)}
-                        ></Task>
-                      );
-                    })}
-                    {provided.placeholder}
-                  </div>
-                );
-              }}
-            </Droppable>
-            <button onClick={this.addCard}>add card</button>
-            <button onClick={this.deleteColumn}>delete Col</button>
-          </div>
+        <div style={{ margin: 8 }}>
+          <Droppable droppableId={props.columnId}>
+            {(provided, snapshot) => {
+              return (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  style={{
+                    background: snapshot.isDraggingOver ? "lightblue" : "",
+                    padding: 4,
+                    width: 250,
+                    minHeight: 500,
+                  }}
+                >
+                  {props.column.items.map((item, index) => {
+                    return (
+                      <Task
+                        item={item}
+                        index={index}
+                        key={item.id}
+                        deleteTask={(itemId) => deleteTask(itemId)}
+                      ></Task>
+                    );
+                  })}
+                  {provided.placeholder}
+                </div>
+              );
+            }}
+          </Droppable>
+          <button onClick={addCard}>add card</button>
+          <button onClick={deleteColumn}>delete Col</button>
         </div>
-      </>
-    );
-  }
-}
+      </div>
+    </>
+  );
+};
+
+export default TaskColumn;

@@ -1,34 +1,9 @@
+import { useStoreState } from "easy-peasy";
 import React, { useEffect, useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
+import { useStoreActions } from "easy-peasy";
 import TaskColumn from "./TaskColumn";
-
-const itemsFromBackend = [
-  { id: uuid(), content: "First task" },
-  { id: uuid(), content: "Second task" },
-  { id: uuid(), content: "Third task" },
-  { id: uuid(), content: "Fourth task" },
-  { id: uuid(), content: "Fifth task" },
-];
-
-let columnsFromBackend = {
-  [uuid()]: {
-    name: "Requested",
-    items: itemsFromBackend,
-  },
-  [uuid()]: {
-    name: "To do",
-    items: [],
-  },
-  [uuid()]: {
-    name: "In Progress",
-    items: [],
-  },
-  [uuid()]: {
-    name: "Done",
-    items: [],
-  },
-};
 
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -68,7 +43,9 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 function Board() {
-  const [columns, setColumns] = useState(columnsFromBackend);
+  const columns = useStoreState((state) => state.columns);
+
+  // const [columns, setColumns] = useState(columnsFromBackend);
 
   useEffect(() => {
     let newCol = {};
@@ -79,7 +56,7 @@ function Board() {
 
     let savedCols = localStorage.getItem("data") || newCol;
     console.log("savedCols", savedCols);
-    setColumns(JSON.parse(savedCols));
+    // setColumns(JSON.parse(savedCols));
 
     return () => {};
   }, []);
@@ -90,23 +67,13 @@ function Board() {
     return () => {};
   }, [columns]);
 
-  const addCol = () => {
-    const NewCols = {
-      ...columns,
-
-      [uuid()]: {
-        name: "New Column",
-        items: [],
-      },
-    };
-    setColumns(NewCols);
-  };
+  const addCol = useStoreActions((actions) => actions.addColumn);
 
   const deleteColumn = (columnId) => {
     let newColumns = { ...columns };
     delete newColumns[columnId];
 
-    setColumns(newColumns);
+    //setColumns(newColumns);
   };
   return (
     <div
@@ -137,7 +104,13 @@ function Board() {
             ></TaskColumn>
           );
         })}
-        <button onClick={addCol}>Add Column</button>
+        <button
+          onClick={() => {
+            addCol();
+          }}
+        >
+          Add Column
+        </button>
       </DragDropContext>
     </div>
   );
