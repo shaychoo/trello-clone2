@@ -43,5 +43,12 @@ export const store = createStore({
   updateColumnTitle: action((state, payload) => {
     state.columns[payload.columnId].name = payload.title;
   }),
+  /**
+   * Cards Action
+   */
+  addTask: action((state, payload) => {
+    state.columns[payload].items.push({ id: uuid(), content: "New task" });
+  }),
+
   //   addTask:action((state,payload) =>{ })
 });

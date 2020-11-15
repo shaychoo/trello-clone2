@@ -10,13 +10,15 @@ const TaskColumn = (props) => {
   const updateColumnTitleAction = useStoreActions(
     (actions) => actions.updateColumnTitle
   );
+  const addTaskAction = useStoreActions((actions) => actions.addTask);
 
   const titleChanged = (newTitle) => {
     updateColumnTitleAction({ columnId: props.columnId, title: newTitle });
   };
 
-  const addCard = () => {
-    props.column.items.push({ id: uuid(), content: "New task" });
+  const addTask = () => {
+    addTaskAction(props.columnId);
+    // props.column.items.push({ id: uuid(), content: "New task" });
     // forceUpdate();
   };
 
@@ -80,7 +82,7 @@ const TaskColumn = (props) => {
               );
             }}
           </Droppable>
-          <button onClick={addCard}>add card</button>
+          <button onClick={addTask}>add card</button>
           <button onClick={deleteColumn}>delete Col</button>
         </div>
       </div>
