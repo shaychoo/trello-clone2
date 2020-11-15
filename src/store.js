@@ -49,6 +49,11 @@ export const store = createStore({
   addTask: action((state, payload) => {
     state.columns[payload].items.push({ id: uuid(), content: "New task" });
   }),
-
+  deleteTask: action((state, payload) => {
+    // TODO delete Task not working
+    state.columns[payload.columnId].items = state.columns[
+      payload.columnId
+    ].items.filter((items) => items.id !== payload.itemsId);
+  }),
   //   addTask:action((state,payload) =>{ })
 });

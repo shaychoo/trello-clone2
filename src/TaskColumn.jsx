@@ -7,6 +7,8 @@ import { useStoreActions } from "easy-peasy";
 
 const TaskColumn = (props) => {
   const deleteColumnAction = useStoreActions((actions) => actions.deleteColumn);
+  const deleteTaskAction = useStoreActions((actions) => actions.deleteTask);
+
   const updateColumnTitleAction = useStoreActions(
     (actions) => actions.updateColumnTitle
   );
@@ -18,8 +20,6 @@ const TaskColumn = (props) => {
 
   const addTask = () => {
     addTaskAction(props.columnId);
-    // props.column.items.push({ id: uuid(), content: "New task" });
-    // forceUpdate();
   };
 
   const deleteColumn = () => {
@@ -28,9 +28,7 @@ const TaskColumn = (props) => {
   };
 
   const deleteTask = (itemId) => {
-    props.column.items = props.column.items.filter(
-      (item) => item.id !== itemId
-    );
+    deleteTaskAction({ columnId: props.columnId, itemId: itemId });
   };
 
   return (
