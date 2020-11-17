@@ -50,10 +50,12 @@ export const store = createStore({
     state.columns[payload].items.push({ id: uuid(), content: "New task" });
   }),
   deleteTask: action((state, payload) => {
-    // TODO delete Task not working
-    state.columns[payload.columnId].items = state.columns[
-      payload.columnId
-    ].items.filter((items) => items.id !== payload.itemsId);
+    // TODO better array remove approch
+
+    let newItems = state.columns[payload.columnId].items.filter((items) => {
+      return JSON.stringify(items.id) != JSON.stringify(payload.itemId.id);
+    });
+    state.columns[payload.columnId].items = [...newItems];
   }),
   //   addTask:action((state,payload) =>{ })
 });
