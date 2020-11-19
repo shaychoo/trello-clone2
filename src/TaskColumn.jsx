@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import Task from "./Task";
 import TaskColumnTitle from "./TaskColumnTitle";
-import uuid from "uuid/v4";
 import { useStoreActions } from "easy-peasy";
+import EditableContent from "./utils/EditableContent";
 
 const TaskColumn = (props) => {
   const deleteColumnAction = useStoreActions((actions) => actions.deleteColumn);
@@ -44,12 +44,12 @@ const TaskColumn = (props) => {
         }}
         key={props.columnId}
       >
-        <TaskColumnTitle
-          title={props.column.name}
+        <EditableContent
+          value={props.column.name}
           noChange={(title) => {
             titleChanged(title);
           }}
-        ></TaskColumnTitle>
+        ></EditableContent>
 
         <div style={{ margin: 8 }}>
           <Droppable droppableId={props.columnId}>
