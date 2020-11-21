@@ -5,6 +5,10 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.9",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
     "easy-peasy": "^4.0.1",
     "object-hash": "^2.0.3",
     "react": "16.12.0",
@@ -14,7 +18,7 @@
     "uuid": "3.3.3"
   },
   "devDependencies": {
-    "typescript": "3.3.3"
+    "typescript": "^3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
