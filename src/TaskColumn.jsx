@@ -1,13 +1,15 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import Task from "./Task";
-import TaskColumnTitle from "./TaskColumnTitle";
 import { useStoreActions } from "easy-peasy";
 import EditableContent from "./utils/EditableContent";
 
 const TaskColumn = (props) => {
   const deleteColumnAction = useStoreActions((actions) => actions.deleteColumn);
   const deleteTaskAction = useStoreActions((actions) => actions.deleteTask);
+  const editTaskContentAction = useStoreActions(
+    (actions) => actions.editTaskContent
+  );
 
   const updateColumnTitleAction = useStoreActions(
     (actions) => actions.updateColumnTitle
@@ -72,6 +74,12 @@ const TaskColumn = (props) => {
                         index={index}
                         key={item.id}
                         deleteTask={(itemId) => deleteTask(itemId)}
+                        onContentEdit={(taskContent) => {
+                          editTaskContentAction({
+                            columnId: props.columnId,
+                            item: { ...item, content: taskContent },
+                          });
+                        }}
                       ></Task>
                     );
                   })}

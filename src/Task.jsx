@@ -1,13 +1,8 @@
-import { useStoreActions } from "easy-peasy";
-import React, { Component } from "react";
+import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import TaskColumnTitle from "./TaskColumnTitle";
+import EditableContent from "./utils/EditableContent";
 
 const Task = (props) => {
-  const deleteTask = () => {
-    props.deleteTask(props.item);
-  };
-
   const { item, index } = props;
   return (
     <Draggable key={item.id} draggableId={item.id} index={index}>
@@ -27,13 +22,15 @@ const Task = (props) => {
               ...provided.draggableProps.style,
             }}
           >
-            <TaskColumnTitle
-              title={item.content}
-              noChange={() => {}}
-            ></TaskColumnTitle>
+            <EditableContent
+              value={item.content}
+              noChange={(taskContent) => {
+                props.onContentEdit(taskContent);
+              }}
+            ></EditableContent>
             <button
               onClick={() => {
-                deleteTask();
+                props.deleteTask(props.item);
               }}
             >
               X

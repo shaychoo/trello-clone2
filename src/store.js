@@ -58,6 +58,13 @@ export const store = createStore({
     state.columns[payload.columnId].items = [...newItems];
   }),
 
+  editTaskContent: action((state, payload) => {
+    const { columnId, item } = payload;
+
+    state.columns[columnId].items.filter((x) => x.id == item.id)[0].content =
+      item.content;
+  }),
+
   dragEnd: action((state, payload) => {
     const result = payload;
 
