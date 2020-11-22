@@ -1,84 +1,99 @@
-import React, { Component } from "react";
+import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import Task from "./Task";
-import TaskColumnTitle from "./TaskColumnTitle";
-import uuid from "uuid/v4";
+import { useStoreActions } from "easy-peasy";
+import EditableContent from "./utils/EditableContent";
 
-export default class TaskColumn extends Component {
-  titleChanged = (newTitle) => {
-    this.props.column.name = newTitle;
-    this.forceUpdate();
+const TaskColumn = (props) => {
+  const deleteColumnAction = useStoreActions((actions) => actions.deleteColumn);
+  const deleteTaskAction = useStoreActions((actions) => actions.deleteTask);
+  const editTaskContentAction = useStoreActions(
+    (actions) => actions.editTaskContent
+  );
+
+  const updateColumnTitleAction = useStoreActions(
+    (actions) => actions.updateColumnTitle
+  );
+  const addTaskAction = useStoreActions((actions) => actions.addTask);
+
+  const titleChanged = (newTitle) => {
+    updateColumnTitleAction({ columnId: props.columnId, title: newTitle });
   };
 
-  addCard = () => {
-    this.props.column.items.push({ id: uuid(), content: "New task" });
-    this.forceUpdate();
-  };
-  deleteColumn = () => {
-    this.props.deleteMe(this.props.columnId);
-    this.forceUpdate();
+  const addTask = () => {
+    addTaskAction(props.columnId);
   };
 
-  deleteTask = (itemId) => {
-    this.props.column.items = this.props.column.items.filter(
-      (item) => item.id !== itemId
-    );
+  const deleteColumn = () => {
+    deleteColumnAction(props.columnId);
+    //forceUpdate();
   };
 
-  render() {
-    const { columnId, column } = this.props;
-    return (
-      <>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            backgroundColor: "lightgrey",
-            marginRight: "15px",
-            borderRadius: "3px",
+  const deleteTask = (itemId) => {
+    deleteTaskAction({ columnId: props.columnId, itemId: itemId });
+  };
+
+  return (
+    <>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          backgroundColor: "lightgrey",
+          marginRight: "15px",
+          borderRadius: "3px",
+        }}
+        key={props.columnId}
+      >
+        <EditableContent
+          value={props.column.name}
+          noChange={(title) => {
+            titleChanged(title);
           }}
-          key={columnId}
-        >
-          <TaskColumnTitle
-            title={column.name}
-            noChange={this.titleChanged}
-          ></TaskColumnTitle>
+        ></EditableContent>
 
-          <div style={{ margin: 8 }}>
-            <Droppable droppableId={columnId}>
-              {(provided, snapshot) => {
-                return (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{
-                      background: snapshot.isDraggingOver ? "lightblue" : "",
-                      padding: 4,
-                      width: 250,
-                      minHeight: 500,
-                    }}
-                  >
-                    {column.items.map((item, index) => {
-                      return (
-                        <Task
-                          item={item}
-                          index={index}
-                          key={item.id}
-                          deleteTask={(itemId) => this.deleteTask(itemId)}
-                        ></Task>
-                      );
-                    })}
-                    {provided.placeholder}
-                  </div>
-                );
-              }}
-            </Droppable>
-            <button onClick={this.addCard}>add card</button>
-            <button onClick={this.deleteColumn}>delete Col</button>
-          </div>
+        <div style={{ margin: 8 }}>
+          <Droppable droppableId={props.columnId}>
+            {(provided, snapshot) => {
+              return (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  style={{
+                    background: snapshot.isDraggingOver ? "lightblue" : "",
+                    padding: 4,
+                    width: 250,
+                    minHeight: 500,
+                  }}
+                >
+                  {props.column.items.map((item, index) => {
+                    return (
+                      <Task
+                        item={item}
+                        index={index}
+                        key={item.id}
+                        deleteTask={(itemId) => deleteTask(itemId)}
+                        onContentEdit={(taskContent) => {
+                          editTaskContentAction({
+                            columnId: props.columnId,
+                            item: { ...item, content: taskContent },
+                          });
+                        }}
+                      ></Task>
+                    );
+                  })}
+                  {provided.placeholder}
+                </div>
+              );
+            }}
+          </Droppable>
+          <button onClick={addTask}>add card</button>
+          <button onClick={deleteColumn}>delete Col</button>
         </div>
-      </>
-    );
-  }
-}
+      </div>
+    </>
+  );
+};
+
+export default TaskColumn;
