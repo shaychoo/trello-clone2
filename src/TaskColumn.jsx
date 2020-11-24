@@ -40,7 +40,9 @@ const TaskColumn = (props) => {
           // display: "flex",
           // flexDirection: "column",
           // alignItems: "center",
-          float: "left",
+          // float: "left",
+          widht: "20%",
+          display: "inline-block",
           backgroundColor: "lightgrey",
           marginRight: "15px",
           borderRadius: "3px",
@@ -55,7 +57,10 @@ const TaskColumn = (props) => {
         ></EditableContent>
 
         <div style={{ margin: 8 }}>
-          <Droppable droppableId={props.columnId}>
+          <Droppable
+            droppableId={props.columnId}
+            isDropDisabled={props.itemDropDisabled}
+          >
             {(provided, snapshot) => {
               return (
                 <div
