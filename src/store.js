@@ -68,7 +68,7 @@ export const store = createStore({
   dragEnd: action((state, payload) => {
     const result = payload;
 
-    if (!result.destination) return;
+    if (!result.destination || result.destination.droppableId == "MAIN") return;
     const { source, destination } = result;
 
     if (source.droppableId !== destination.droppableId) {

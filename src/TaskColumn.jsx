@@ -37,9 +37,10 @@ const TaskColumn = (props) => {
     <>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          // display: "flex",
+          // flexDirection: "column",
+          // alignItems: "center",
+          float: "left",
           backgroundColor: "lightgrey",
           marginRight: "15px",
           borderRadius: "3px",
@@ -64,7 +65,9 @@ const TaskColumn = (props) => {
                     background: snapshot.isDraggingOver ? "lightblue" : "",
                     padding: 4,
                     width: 250,
-                    minHeight: 500,
+
+                    maxHeight: "80vh",
+                    overflow: "auto",
                   }}
                 >
                   {props.column.items.map((item, index) => {

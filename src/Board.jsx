@@ -1,6 +1,6 @@
 import { useStoreState } from "easy-peasy";
 import React, { useEffect, useState } from "react";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
 import { useStoreActions } from "easy-peasy";
 import TaskColumn from "./TaskColumn";
@@ -37,13 +37,17 @@ function Board() {
 
     //setColumns(newColumns);
   };
+
+  console.log(columns.length * 400 + "px");
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
+        // display: "flex",
+        // justifyContent: "center",
         height: "90%",
         marginTop: "40px",
+        overflowX: "auto",
+        width: columns.length * 400 + "px",
       }}
     >
       <button
@@ -54,16 +58,27 @@ function Board() {
         log
       </button>
       <DragDropContext onDragEnd={(result) => dragEnd(result, columns)}>
-        {Object.entries(columns).map(([columnId, column], index) => {
-          return (
-            <TaskColumn
-              key={columnId}
-              columnId={columnId}
-              column={column}
-              deleteMe={deleteColumn}
-            ></TaskColumn>
-          );
-        })}
+        <Droppable droppableId={"MAIN"}>
+          {(provided, snapshot) => {
+            return (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {Object.entries(columns).map(([columnId, column], index) => {
+                  return (
+                    <TaskColumn
+                      key={columnId}
+                      columnId={columnId}
+                      column={column}
+                      deleteMe={deleteColumn}
+                    ></TaskColumn>
+                  );
+                })}
+
+                {provided.placeholder}
+              </div>
+            );
+          }}
+        </Droppable>
+
         <button
           onClick={() => {
             addCol();
