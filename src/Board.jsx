@@ -30,6 +30,7 @@ function Board() {
 
   const addCol = useStoreActions((actions) => actions.addColumn);
   const dragEnd = useStoreActions((actions) => actions.dragEnd);
+  const [columnDrag, setcolumnDrag] = useState(false);
 
   const deleteColumn = (columnId) => {
     let newColumns = { ...columns };
@@ -57,8 +58,17 @@ function Board() {
       >
         log
       </button>
-      <DragDropContext onDragEnd={(result) => dragEnd(result, columns)}>
-        <Droppable droppableId={"MAIN"} direction={"horizontal"}>
+      <DragDropContext
+        onDragEnd={(result) => dragEnd(result, columns)}
+        onDragStart={(a) => {
+          setcolumnDrag(a.source.droppableId == "MAIN");
+        }}
+      >
+        <Droppable
+          droppableId={"MAIN"}
+          direction={"horizontal"}
+          isDropDisabled={!columnDrag}
+        >
           {(provided, snapshot) => {
             return (
               <div
@@ -74,7 +84,6 @@ function Board() {
                       key={columnId}
                       draggableId={columnId}
                       index={index}
-                      
                     >
                       {(provided, snapshot) => {
                         return (
@@ -102,7 +111,7 @@ function Board() {
                               columnId={columnId}
                               column={column}
                               deleteMe={deleteColumn}
-                              itemDropDisabled={true TODO repalce with event}
+                              itemDropDisabled={columnDrag}
                             ></TaskColumn>
                           </div>
                         );
