@@ -68,10 +68,23 @@ export const store = createStore({
   dragEnd: action((state, payload) => {
     const result = payload;
 
+    console.log(result);
+
     if (!result.destination) return;
     const { source, destination } = result;
+    if (result.destination.droppableId == "MAIN") {
+      const newArr = [...Object.entries(state.columns)];
+      newArr.splice(destination.index, 0, newArr.splice(source.index, 1)[0]);
 
-    if (source.droppableId !== destination.droppableId) {
+      let arr2 = [];
+
+      for (let i = 0; i < newArr.length; i++) {
+        arr2[newArr[i][0]] = newArr[i][1];
+      }
+      state.columns = { ...arr2 };
+
+      console.log(state.columns);
+    } else if (source.droppableId !== destination.droppableId) {
       const sourceColumn = state.columns[source.droppableId];
       const destColumn = state.columns[destination.droppableId];
       const sourceItems = [...sourceColumn.items];

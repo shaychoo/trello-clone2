@@ -37,9 +37,12 @@ const TaskColumn = (props) => {
     <>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          // display: "flex",
+          // flexDirection: "column",
+          // alignItems: "center",
+          // float: "left",
+          widht: "20%",
+          display: "inline-block",
           backgroundColor: "lightgrey",
           marginRight: "15px",
           borderRadius: "3px",
@@ -54,7 +57,10 @@ const TaskColumn = (props) => {
         ></EditableContent>
 
         <div style={{ margin: 8 }}>
-          <Droppable droppableId={props.columnId}>
+          <Droppable
+            droppableId={props.columnId}
+            isDropDisabled={props.itemDropDisabled}
+          >
             {(provided, snapshot) => {
               return (
                 <div
@@ -64,7 +70,9 @@ const TaskColumn = (props) => {
                     background: snapshot.isDraggingOver ? "lightblue" : "",
                     padding: 4,
                     width: 250,
-                    minHeight: 500,
+
+                    maxHeight: "80vh",
+                    overflow: "auto",
                   }}
                 >
                   {props.column.items.map((item, index) => {
