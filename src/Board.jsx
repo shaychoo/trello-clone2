@@ -1,5 +1,5 @@
 import { useStoreState } from "easy-peasy";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useStoreActions } from "easy-peasy";
 import TaskColumn from "./TaskColumn";
@@ -8,7 +8,13 @@ function Board() {
   const columns = useStoreState((state) => state.columns);
   const addCol = useStoreActions((actions) => actions.addColumn);
   const dragEnd = useStoreActions((actions) => actions.dragEnd);
+  const saveBoard = useStoreActions((actions) => actions.saveBoard);
   const [columnDrag, setcolumnDrag] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(columns));
+    return () => {};
+  }, [columns]);
 
   return (
     <div
@@ -21,20 +27,6 @@ function Board() {
         width: columns.length * 400 + "px",
       }}
     >
-      <button
-        onClick={() => {
-          console.log(columns);
-        }}
-      >
-        log
-      </button>
-      <button
-        onClick={() => {
-          SaveBoard();
-        }}
-      >
-        Save Board
-      </button>
       <DragDropContext
         onDragEnd={(result) => dragEnd(result, columns)}
         onDragStart={(a) => {
