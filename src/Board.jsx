@@ -1,45 +1,21 @@
 import { useStoreState } from "easy-peasy";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import uuid from "uuid/v4";
 import { useStoreActions } from "easy-peasy";
 import TaskColumn from "./TaskColumn";
 
 function Board() {
   const columns = useStoreState((state) => state.columns);
-
-  useEffect(() => {
-    let newCol = {};
-    newCol[uuid()] = {
-      name: "New Column",
-      items: [],
-    };
-
-    let savedCols = localStorage.getItem("data") || newCol;
-    console.log("savedCols", savedCols);
-    // setColumns(JSON.parse(savedCols));
-
-    return () => {};
-  }, []);
+  const addCol = useStoreActions((actions) => actions.addColumn);
+  const dragEnd = useStoreActions((actions) => actions.dragEnd);
+  const saveBoard = useStoreActions((actions) => actions.saveBoard);
+  const [columnDrag, setcolumnDrag] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(columns));
-    console.log("Data Saved");
     return () => {};
   }, [columns]);
 
-  const addCol = useStoreActions((actions) => actions.addColumn);
-  const dragEnd = useStoreActions((actions) => actions.dragEnd);
-  const [columnDrag, setcolumnDrag] = useState(false);
-
-  const deleteColumn = (columnId) => {
-    let newColumns = { ...columns };
-    delete newColumns[columnId];
-
-    //setColumns(newColumns);
-  };
-
-  console.log(columns.length * 400 + "px");
   return (
     <div
       style={{
@@ -51,18 +27,14 @@ function Board() {
         width: columns.length * 400 + "px",
       }}
     >
-      <h1 style={{
-        textAlign: 'center'
-      }}>
-        iTrello
-      </h1>
-      <button
-        onClick={() => {
-          console.log(columns);
+      <h1
+        style={{
+          textAlign: "center",
         }}
       >
-        log
-      </button>
+        iTrello
+      </h1>
+
       <DragDropContext
         onDragEnd={(result) => dragEnd(result, columns)}
         onDragStart={(a) => {
@@ -115,7 +87,6 @@ function Board() {
                               key={columnId}
                               columnId={columnId}
                               column={column}
-                              deleteMe={deleteColumn}
                               itemDropDisabled={columnDrag}
                             ></TaskColumn>
                           </div>

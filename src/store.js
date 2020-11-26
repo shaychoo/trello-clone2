@@ -27,7 +27,8 @@ let columnsFromBackend = {
 };
 
 export const store = createStore({
-  columns: columnsFromBackend,
+  columns: JSON.parse(localStorage.getItem("data")) || columnsFromBackend,
+
   /**
    * Column actions
    */

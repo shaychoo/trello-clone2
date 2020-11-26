@@ -20,15 +20,6 @@ const TaskColumn = (props) => {
     updateColumnTitleAction({ columnId: props.columnId, title: newTitle });
   };
 
-  const addTask = () => {
-    addTaskAction(props.columnId);
-  };
-
-  const deleteColumn = () => {
-    deleteColumnAction(props.columnId);
-    //forceUpdate();
-  };
-
   const deleteTask = (itemId) => {
     deleteTaskAction({ columnId: props.columnId, itemId: itemId });
   };
@@ -96,8 +87,12 @@ const TaskColumn = (props) => {
               );
             }}
           </Droppable>
-          <button onClick={addTask}>add card</button>
-          <button onClick={deleteColumn}>delete Col</button>
+          <button onClick={() => addTaskAction(props.columnId)}>
+            add card
+          </button>
+          <button onClick={() => deleteColumnAction(props.columnId)}>
+            delete Col
+          </button>
         </div>
       </div>
     </>
