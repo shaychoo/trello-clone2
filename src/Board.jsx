@@ -27,6 +27,14 @@ function Board() {
         width: columns.length * 400 + "px",
       }}
     >
+      <h1
+        style={{
+          textAlign: "center",
+        }}
+      >
+        iTrello
+      </h1>
+
       <DragDropContext
         onDragEnd={(result) => dragEnd(result, columns)}
         onDragStart={(a) => {
