@@ -1,40 +1,27 @@
-import { action, createStore } from "easy-peasy";
-import uuid from "uuid/v4";
-
-let columnsFromBackend = {
-  [uuid()]: {
-    name: "Requested",
-    items: [
-      { id: uuid(), content: "First task" },
-      { id: uuid(), content: "Second task" },
-      { id: uuid(), content: "Third task" },
-      { id: uuid(), content: "Fourth task" },
-      { id: uuid(), content: "Fifth task" },
-    ],
-  },
-  [uuid()]: {
-    name: "To do",
-    items: [],
-  },
-  [uuid()]: {
-    name: "In Progress",
-    items: [],
-  },
-  [uuid()]: {
-    name: "Done",
-    items: [],
-  },
-};
+import { action, createStore } from 'easy-peasy';
+import uuid from 'uuid/v4';
+import { initialBoardMockupData, initialBoardsMockupData } from './mockupData';
 
 export const store = createStore({
-  columns: JSON.parse(localStorage.getItem("data")) || columnsFromBackend,
-
+  board: initialBoardsMockupData['board1ID'].metaData,
+  boardId: 'board1ID',
+  columns:
+    JSON.parse(localStorage.getItem('data')) ||
+    initialBoardsMockupData['board1ID'].columns,
+  /**
+   * Board actions
+   */
+  changeBoard: action((state, payload) => {
+    state.columns = initialBoardsMockupData[payload].columns;
+    state.board = initialBoardsMockupData[payload].metaData;
+    state.boardId = payload;
+  }),
   /**
    * Column actions
    */
   addColumn: action((state, payload) => {
     state.columns[uuid()] = {
-      name: "New Column",
+      name: 'New Column',
       items: [],
     };
   }),
@@ -48,7 +35,7 @@ export const store = createStore({
    * Cards Action
    */
   addTask: action((state, payload) => {
-    state.columns[payload].items.push({ id: uuid(), content: "New task" });
+    state.columns[payload].items.push({ id: uuid(), content: 'New task' });
   }),
   deleteTask: action((state, payload) => {
     // TODO better array remove approch
@@ -58,7 +45,6 @@ export const store = createStore({
     });
     state.columns[payload.columnId].items = [...newItems];
   }),
-
   editTaskContent: action((state, payload) => {
     const { columnId, item } = payload;
 
@@ -69,11 +55,9 @@ export const store = createStore({
   dragEnd: action((state, payload) => {
     const result = payload;
 
-    console.log(result);
-
     if (!result.destination) return;
     const { source, destination } = result;
-    if (result.destination.droppableId == "MAIN") {
+    if (result.destination.droppableId == 'MAIN') {
       const newArr = [...Object.entries(state.columns)];
       newArr.splice(destination.index, 0, newArr.splice(source.index, 1)[0]);
 
@@ -83,8 +67,6 @@ export const store = createStore({
         arr2[newArr[i][0]] = newArr[i][1];
       }
       state.columns = { ...arr2 };
-
-      console.log(state.columns);
     } else if (source.droppableId !== destination.droppableId) {
       const sourceColumn = state.columns[source.droppableId];
       const destColumn = state.columns[destination.droppableId];

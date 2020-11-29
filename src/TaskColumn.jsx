@@ -1,8 +1,8 @@
-import React from "react";
-import { Droppable } from "react-beautiful-dnd";
-import Task from "./Task";
-import { useStoreActions } from "easy-peasy";
-import EditableContent from "./utils/EditableContent";
+import React from 'react';
+import { Droppable } from 'react-beautiful-dnd';
+import Task from './Task';
+import { useStoreActions } from 'easy-peasy';
+import EditableContent from './utils/EditableContent';
 
 const TaskColumn = (props) => {
   const deleteColumnAction = useStoreActions((actions) => actions.deleteColumn);
@@ -32,40 +32,36 @@ const TaskColumn = (props) => {
           // flexDirection: "column",
           // alignItems: "center",
           // float: "left",
-          widht: "20%",
-          display: "inline-block",
-          backgroundColor: "lightgrey",
-          marginRight: "15px",
-          borderRadius: "3px",
+          widht: '20%',
+          display: 'inline-block',
+          backgroundColor: 'lightgrey',
+          marginRight: '15px',
+          borderRadius: '3px',
         }}
-        key={props.columnId}
-      >
+        key={props.columnId}>
         <EditableContent
           value={props.column.name}
           noChange={(title) => {
             titleChanged(title);
-          }}
-        ></EditableContent>
+          }}></EditableContent>
 
         <div style={{ margin: 8 }}>
           <Droppable
             droppableId={props.columnId}
-            isDropDisabled={props.itemDropDisabled}
-          >
+            isDropDisabled={props.itemDropDisabled}>
             {(provided, snapshot) => {
               return (
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                   style={{
-                    background: snapshot.isDraggingOver ? "lightblue" : "",
+                    background: snapshot.isDraggingOver ? 'lightblue' : '',
                     padding: 4,
                     width: 250,
 
-                    maxHeight: "80vh",
-                    overflow: "auto",
-                  }}
-                >
+                    maxHeight: '80vh',
+                    overflow: 'auto',
+                  }}>
                   {props.column.items.map((item, index) => {
                     return (
                       <Task
@@ -78,8 +74,7 @@ const TaskColumn = (props) => {
                             columnId: props.columnId,
                             item: { ...item, content: taskContent },
                           });
-                        }}
-                      ></Task>
+                        }}></Task>
                     );
                   })}
                   {provided.placeholder}
