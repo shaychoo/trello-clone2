@@ -5,9 +5,7 @@ import { initialBoardMockupData, initialBoardsMockupData } from './mockupData';
 export const store = createStore({
   board: initialBoardsMockupData['board1ID'].metaData,
   boardId: 'board1ID',
-  columns:
-    JSON.parse(localStorage.getItem('data')) ||
-    initialBoardsMockupData['board1ID'].columns,
+  columns: initialBoardsMockupData['board1ID'].columns,
   /**
    * Board actions
    */
