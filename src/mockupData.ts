@@ -37,5 +37,15 @@ initialBoardsMockupData['board2ID'] = {
   metaData:{
   title: 'iTrello 2',
   },
-  columns: initialBoardMockupData,
+  columns: {...initialBoardMockupData,
+    [uuid()]: {
+      name: 'itrelo2col',
+      items: [
+        { id: uuid(), content: 'First task' },
+        { id: uuid(), content: 'Second task' },
+        { id: uuid(), content: 'Third task' },
+        { id: uuid(), content: 'Fourth task' },
+        { id: uuid(), content: 'Fifth task' },
+      ],
+    } }
 };
