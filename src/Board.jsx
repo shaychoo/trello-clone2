@@ -10,8 +10,6 @@ function Board() {
   const board = useStoreState((state) => state.board);
   const addCol = useStoreActions((actions) => actions.addColumn);
   const dragEnd = useStoreActions((actions) => actions.dragEnd);
-  const saveBoard = useStoreActions((actions) => actions.saveBoard);
-  const [columnDrag, setcolumnDrag] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('data', JSON.stringify(columns));
@@ -34,16 +32,8 @@ function Board() {
         }}>
         {board.title}
       </h1>
-
-      <DragDropContext
-        onDragEnd={(result) => dragEnd(result, columns)}
-        onDragStart={(a) => {
-          setcolumnDrag(a.source.droppableId == 'MAIN');
-        }}>
-        <Droppable
-          droppableId={'MAIN'}
-          direction={'horizontal'}
-          isDropDisabled={!columnDrag}>
+      <DragDropContext onDragEnd={(result) => dragEnd(result, columns)}>
+        <Droppable droppableId={'MAIN'} direction={'horizontal'} type='Column'>
           {(provided, snapshot) => {
             return (
               <div
@@ -55,6 +45,7 @@ function Board() {
                 {Object.entries(columns).map(([columnId, column], index) => {
                   return (
                     <Draggable
+                      type='Column'
                       key={columnId}
                       draggableId={columnId}
                       index={index}>
@@ -81,15 +72,13 @@ function Board() {
                             <TaskColumn
                               key={columnId}
                               columnId={columnId}
-                              column={column}
-                              itemDropDisabled={columnDrag}></TaskColumn>
+                              column={column}></TaskColumn>
                           </div>
                         );
                       }}
                     </Draggable>
                   );
                 })}
-
                 {provided.placeholder}
               </div>
             );

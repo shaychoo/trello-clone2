@@ -5,7 +5,7 @@ import EditableContent from './utils/EditableContent';
 const Task = (props) => {
   const { item, index } = props;
   return (
-    <Draggable key={item.id} draggableId={item.id} index={index}>
+    <Draggable key={item.id} draggableId={item.id} index={index} type='Task'>
       {(provided, snapshot) => {
         return (
           <div

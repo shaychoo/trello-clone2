@@ -46,9 +46,7 @@ const TaskColumn = (props) => {
           }}></EditableContent>
 
         <div style={{ margin: 8 }}>
-          <Droppable
-            droppableId={props.columnId}
-            isDropDisabled={props.itemDropDisabled}>
+          <Droppable droppableId={props.columnId} type='Task'>
             {(provided, snapshot) => {
               return (
                 <div
