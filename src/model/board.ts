@@ -1,11 +1,28 @@
-import { action, createStore } from 'easy-peasy';
+import { Action, action, Thunk, thunk } from "easy-peasy";
 import uuid from 'uuid/v4';
-import { initialBoardMockupData, initialBoardsMockupData } from './mockupData';
+import { initialBoardMockupData, initialBoardsMockupData } from '../mockupData';
 
-export const store = createStore({
-  board: initialBoardsMockupData['board1ID'].metaData,
-  boardId: 'board1ID',
-  columns: initialBoardsMockupData['board1ID'].columns,
+
+export interface BoardModel {
+  board: any;
+  boardId:string;
+  columns:any;
+  
+  changeBoard:Action<BoardModel,any>;
+  addColumn:Action<BoardModel,any>;
+  deleteColumn:Action<BoardModel,any>;
+  updateColumnTitle:Action<BoardModel,any>;
+  addTask:Action<BoardModel,any>;
+  deleteTask:Action<BoardModel,any>;
+  editTaskContent:Action<BoardModel,any>;
+  dragEnd:Action<BoardModel,any>;
+}
+
+const board: BoardModel = {
+    board: initialBoardsMockupData['board1ID'].metaData,
+    boardId: 'board1ID',
+    columns: initialBoardsMockupData['board1ID'].columns,
+
   /**
    * Board actions
    */
@@ -98,4 +115,8 @@ export const store = createStore({
     }
   }),
   //   addTask:action((state,payload) =>{ })
-});
+
+
+};
+
+export default board;

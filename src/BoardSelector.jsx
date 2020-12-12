@@ -1,9 +1,9 @@
 import React from 'react';
-import { useStoreActions } from 'easy-peasy';
+import { useStoreActions } from './store';
 import { initialBoardsMockupData } from './mockupData';
 
 const BoardSelector = () => {
-  const changeBoard = useStoreActions((actions) => actions.changeBoard);
+  const changeBoard = useStoreActions((actions) => actions.board.changeBoard);
 
   return (
     <div>

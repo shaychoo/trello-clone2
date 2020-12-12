@@ -1,20 +1,24 @@
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import Task from './Task';
-import { useStoreActions } from 'easy-peasy';
+import { useStoreActions } from './store';
 import EditableContent from './utils/EditableContent';
 
 const TaskColumn = (props) => {
-  const deleteColumnAction = useStoreActions((actions) => actions.deleteColumn);
-  const deleteTaskAction = useStoreActions((actions) => actions.deleteTask);
+  const deleteColumnAction = useStoreActions(
+    (actions) => actions.board.deleteColumn
+  );
+  const deleteTaskAction = useStoreActions(
+    (actions) => actions.board.deleteTask
+  );
   const editTaskContentAction = useStoreActions(
-    (actions) => actions.editTaskContent
+    (actions) => actions.board.editTaskContent
   );
 
   const updateColumnTitleAction = useStoreActions(
-    (actions) => actions.updateColumnTitle
+    (actions) => actions.board.updateColumnTitle
   );
-  const addTaskAction = useStoreActions((actions) => actions.addTask);
+  const addTaskAction = useStoreActions((actions) => actions.board.addTask);
 
   const titleChanged = (newTitle) => {
     updateColumnTitleAction({ columnId: props.columnId, title: newTitle });

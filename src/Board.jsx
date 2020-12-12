@@ -1,15 +1,14 @@
-import { useStoreState } from 'easy-peasy';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { useStoreActions } from 'easy-peasy';
+import { useStoreActions, useStoreState } from './store';
 import TaskColumn from './TaskColumn';
 const BoardList = [];
 
 function Board() {
-  const columns = useStoreState((state) => state.columns);
-  const board = useStoreState((state) => state.board);
-  const addCol = useStoreActions((actions) => actions.addColumn);
-  const dragEnd = useStoreActions((actions) => actions.dragEnd);
+  const columns = useStoreState((state) => state.board.columns);
+  const board = useStoreState((state) => state.board.board);
+  const addCol = useStoreActions((actions) => actions.board.addColumn);
+  const dragEnd = useStoreActions((actions) => actions.board.dragEnd);
 
   useEffect(() => {
     localStorage.setItem('data', JSON.stringify(columns));
