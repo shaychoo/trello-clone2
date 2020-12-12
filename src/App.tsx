@@ -4,14 +4,14 @@ import { StoreProvider } from 'easy-peasy';
 // import store from './store';
 import store from './store';
 import BoardSelector from './BoardSelector';
-import LoginButton from './LoginButton';
+import UserAvatar from './components/user/UserAvatar';
 
 function App() {
   return (
     <>
       <StoreProvider store={store}>
         <BoardSelector />
-        <LoginButton />
+        <UserAvatar />
         <Board />
       </StoreProvider>
     </>

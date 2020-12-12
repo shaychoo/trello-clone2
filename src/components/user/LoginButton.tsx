@@ -1,7 +1,6 @@
 
 import React from 'react'
-import { useStoreActions } from './store';
-
+import { useStoreActions } from '../../store';
 
 const LoginButton = () => {
 
@@ -9,7 +8,7 @@ const LoginButton = () => {
 
     return (
         <div>
-            <button onClick={login}> Sign in with Google</button>
+            <button onClick={()=>{login()}}> Sign in with Google</button>
         </div>
     )
 }
