@@ -51,6 +51,7 @@ const board: BoardModel = {
    */
   addTask: action((state, payload) => {
     state.columns[payload].items.push({ id: uuid(), content: 'New task' });
+    
   }),
   deleteTask: action((state, payload) => {
     // TODO better array remove approch
