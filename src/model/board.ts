@@ -1,5 +1,7 @@
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import uuid from 'uuid/v4';
+import { StoreModel } from ".";
+import firebase from 'firebase';
 import { initialBoardMockupData, initialBoardsMockupData } from '../mockupData';
 
 
@@ -8,7 +10,7 @@ export interface BoardModel {
   boardId:string;
   columns:any;
   
-  changeBoard:Action<BoardModel,any>;
+  changeBoard:Thunk<BoardModel,any,undefined,StoreModel>;
   addColumn:Action<BoardModel,any>;
   deleteColumn:Action<BoardModel,any>;
   updateColumnTitle:Action<BoardModel,any>;
@@ -19,17 +21,22 @@ export interface BoardModel {
 }
 
 const board: BoardModel = {
-    board: initialBoardsMockupData['board1ID'].metaData,
-    boardId: 'board1ID',
-    columns: initialBoardsMockupData['board1ID'].columns,
+    board: initialBoardsMockupData['iTrello'].metaData,
+    boardId: 'iTrello',
+    columns: initialBoardsMockupData['iTrello'].columns,
 
   /**
    * Board actions
    */
-  changeBoard: action((state, payload) => {
-    state.columns = initialBoardsMockupData[payload].columns;
-    state.board = initialBoardsMockupData[payload].metaData;
-    state.boardId = payload;
+  changeBoard: thunk( async (state, boardTitle,{getStoreState} ) => {
+    const {user} = getStoreState().user
+    
+    const loadedBoard = await firebase.firestore().collection('boards').doc(user.uid + '_' +boardTitle ).get()
+console.log('loaded',loadedBoard);
+
+    // state.columns = initialBoardsMockupData[payload].columns;
+    // state.board = initialBoardsMockupData[payload].metaData;
+    // state.boardId = payload;
   }),
   /**
    * Column actions

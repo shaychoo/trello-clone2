@@ -26,14 +26,14 @@ export const initialBoardMockupData = {
 };
 
 export const initialBoardsMockupData= [];
-initialBoardsMockupData['board1ID'] = {
+initialBoardsMockupData['iTrello'] = {
   metaData:{
     title: 'iTrello'
   },
   columns: initialBoardMockupData,
 };
 
-initialBoardsMockupData['board2ID'] = {
+initialBoardsMockupData['iTrello 2'] = {
   metaData:{
   title: 'iTrello 2',
   },
