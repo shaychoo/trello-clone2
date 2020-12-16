@@ -11,6 +11,7 @@ export interface BoardModel {
   columns:any;
   
   changeBoard:Thunk<BoardModel,any,undefined,StoreModel>;
+  setColumns:Action<BoardModel,any>;
   addColumn:Action<BoardModel,any>;
   deleteColumn:Action<BoardModel,any>;
   updateColumnTitle:Action<BoardModel,any>;
@@ -28,11 +29,16 @@ const board: BoardModel = {
   /**
    * Board actions
    */
-  changeBoard: thunk( async (state, boardTitle,{getStoreState} ) => {
+  changeBoard: thunk( async (actions, boardTitle,{getStoreState} ) => {
     const {user} = getStoreState().user
     
     const loadedBoard = await firebase.firestore().collection('boards').doc(user.uid + '_' +boardTitle ).get()
-console.log('loaded',loadedBoard);
+    console.log('loaded',loadedBoard.data());
+    let boardFetchedData = loadedBoard.data();
+    if(boardFetchedData){
+
+      actions.setColumns( boardFetchedData.columns ) 
+    }
 
     // state.columns = initialBoardsMockupData[payload].columns;
     // state.board = initialBoardsMockupData[payload].metaData;
@@ -41,6 +47,10 @@ console.log('loaded',loadedBoard);
   /**
    * Column actions
    */
+setColumns: action((state,columns)=>{
+  state.columns = columns;
+}),
+
   addColumn: action((state, payload) => {
     state.columns[uuid()] = {
       name: 'New Column',
