@@ -1,22 +1,56 @@
-import { action, createStore } from 'easy-peasy';
+import { Action, action, Thunk, thunk } from "easy-peasy";
 import uuid from 'uuid/v4';
-import { initialBoardMockupData, initialBoardsMockupData } from './mockupData';
+import { StoreModel } from ".";
+import firebase from 'firebase';
+import { initialBoardMockupData, initialBoardsMockupData } from '../mockupData';
 
-export const store = createStore({
-  board: initialBoardsMockupData['board1ID'].metaData,
-  boardId: 'board1ID',
-  columns: initialBoardsMockupData['board1ID'].columns,
+
+export interface BoardModel {
+  board: any;
+  boardId:string;
+  columns:any;
+  
+  changeBoard:Thunk<BoardModel,any,undefined,StoreModel>;
+  setColumns:Action<BoardModel,any>;
+  addColumn:Action<BoardModel,any>;
+  deleteColumn:Action<BoardModel,any>;
+  updateColumnTitle:Action<BoardModel,any>;
+  addTask:Action<BoardModel,any>;
+  deleteTask:Action<BoardModel,any>;
+  editTaskContent:Action<BoardModel,any>;
+  dragEnd:Action<BoardModel,any>;
+}
+
+const board: BoardModel = {
+    board: initialBoardsMockupData['iTrello'].metaData,
+    boardId: 'iTrello',
+    columns: initialBoardsMockupData['iTrello'].columns,
+
   /**
    * Board actions
    */
-  changeBoard: action((state, payload) => {
-    state.columns = initialBoardsMockupData[payload].columns;
-    state.board = initialBoardsMockupData[payload].metaData;
-    state.boardId = payload;
+  changeBoard: thunk( async (actions, boardTitle,{getStoreState} ) => {
+    const {user} = getStoreState().user
+    
+    const loadedBoard = await firebase.firestore().collection('boards').doc(user.uid + '_' +boardTitle ).get()
+    console.log('loaded',loadedBoard.data());
+    let boardFetchedData = loadedBoard.data();
+    if(boardFetchedData){
+
+      actions.setColumns( boardFetchedData.columns ) 
+    }
+
+    // state.columns = initialBoardsMockupData[payload].columns;
+    // state.board = initialBoardsMockupData[payload].metaData;
+    // state.boardId = payload;
   }),
   /**
    * Column actions
    */
+setColumns: action((state,columns)=>{
+  state.columns = columns;
+}),
+
   addColumn: action((state, payload) => {
     state.columns[uuid()] = {
       name: 'New Column',
@@ -34,6 +68,7 @@ export const store = createStore({
    */
   addTask: action((state, payload) => {
     state.columns[payload].items.push({ id: uuid(), content: 'New task' });
+    
   }),
   deleteTask: action((state, payload) => {
     // TODO better array remove approch
@@ -98,4 +133,8 @@ export const store = createStore({
     }
   }),
   //   addTask:action((state,payload) =>{ })
-});
+
+
+};
+
+export default board;
