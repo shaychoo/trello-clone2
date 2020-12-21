@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 const EditableContent = (props) => {
   const [editMode, setEditMode] = useState(false);
@@ -17,16 +17,15 @@ const EditableContent = (props) => {
   }, [editMode]);
   return (
     <>
-      <h2
+      <span
         hidden={editMode}
         onClick={() => {
           setEditMode(!editMode);
-        }}
-      >
+        }}>
         {props.value}
-      </h2>
+      </span>
       <input
-        type="text"
+        type='text'
         hidden={!editMode}
         defaultValue={props.value}
         ref={(input) => {
@@ -34,7 +33,7 @@ const EditableContent = (props) => {
         }}
         onChange={(event) => setTextValue(event.target.value)}
         onKeyUp={(event) => {
-          if (event.key === "Enter") {
+          if (event.key === 'Enter') {
             event.preventDefault();
             setEditMode(!editMode);
           }

@@ -36,20 +36,19 @@ const TaskColumn = (props) => {
           // flexDirection: "column",
           // alignItems: "center",
           // float: "left",
-          widht: '20%',
+          // widht: '20%',
           display: 'inline-block',
-          backgroundColor: 'lightgrey',
-          marginRight: '15px',
+          // backgroundColor: 'lightgrey',
+          // marginRight: '15px',
           borderRadius: '3px',
         }}
         key={props.columnId}>
-        <EditableContent
-          value={props.column.name}
-          noChange={(title) => {
-            titleChanged(title);
-          }}></EditableContent>
-
         <div style={{ margin: 8 }}>
+          <EditableContent
+            value={props.column.name}
+            noChange={(title) => {
+              titleChanged(title);
+            }}></EditableContent>
           <Droppable droppableId={props.columnId} type='Task'>
             {(provided, snapshot) => {
               return (
@@ -58,7 +57,7 @@ const TaskColumn = (props) => {
                   ref={provided.innerRef}
                   style={{
                     background: snapshot.isDraggingOver ? 'lightblue' : '',
-                    padding: 4,
+                    // padding: 4,
                     width: 250,
 
                     maxHeight: '80vh',

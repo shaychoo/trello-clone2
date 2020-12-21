@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 export default function TaskColumnTitle(props) {
   const [editMode, setEditMode] = useState(false);
@@ -7,10 +7,8 @@ export default function TaskColumnTitle(props) {
 
   useEffect(() => {
     if (!editMode) {
-      console.log("needToSave", textValue);
       props.noChange(textValue);
     } else {
-      console.log("edit", textValue);
       setTimeout(() => {
         inputField.focus();
       }, 20);
@@ -19,16 +17,15 @@ export default function TaskColumnTitle(props) {
   }, [editMode]);
   return (
     <>
-      <h2
+      <span
         hidden={editMode}
         onClick={() => {
           setEditMode(!editMode);
-        }}
-      >
+        }}>
         {props.title}
-      </h2>
+      </span>
       <input
-        type="text"
+        type='text'
         hidden={!editMode}
         defaultValue={props.title}
         ref={(input) => {
@@ -36,7 +33,7 @@ export default function TaskColumnTitle(props) {
         }}
         onChange={(event) => setTextValue(event.target.value)}
         onKeyUp={(event) => {
-          if (event.key === "Enter") {
+          if (event.key === 'Enter') {
             event.preventDefault();
             setEditMode(!editMode);
           }

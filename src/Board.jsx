@@ -38,9 +38,11 @@ function Board() {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                style={{
-                  background: snapshot.isDraggingOver ? '#eeeeee' : '',
-                }}>
+                style={
+                  {
+                    // background: snapshot.isDraggingOver ? '#eeeeee' : '',
+                  }
+                }>
                 {Object.entries(columns).map(([columnId, column], index) => {
                   return (
                     <Draggable
@@ -56,16 +58,14 @@ function Board() {
                             {...provided.dragHandleProps}
                             style={{
                               userSelect: 'none',
-                              padding: 16,
+                              // padding: 16,
                               widht: '20%',
                               display: 'inline-block',
                               verticalAlign: 'top',
-                              margin: '8px',
+
                               minHeight: '50px',
-                              backgroundColor: snapshot.isDragging
-                                ? '#263B4A'
-                                : '#456C86',
-                              color: 'white',
+                              backgroundColor: '#ebecf0',
+                              // color: 'white',
                               ...provided.draggableProps.style,
                             }}>
                             <TaskColumn

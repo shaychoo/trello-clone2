@@ -25,14 +25,14 @@ const Task = (props) => {
             {...provided.dragHandleProps}
             style={{
               userSelect: 'none',
-              // padding: 16,
+              padding: '5px',
               margin: '0 0 8px 0',
               // minHeight: '50px',
               // backgroundColor: snapshot.isDragging ? '#263B4A' : '#456C86',
               // color: 'white',
               ...provided.draggableProps.style,
             }}>
-            <Fade in={mouseOver} timeout='100'>
+            <Fade in={mouseOver}>
               <DeleteIcon
                 style={{ float: 'right' }}
                 onClick={() => {
