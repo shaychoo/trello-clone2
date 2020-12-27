@@ -57,7 +57,7 @@ const TaskColumn = (props) => {
                   ref={provided.innerRef}
                   style={{
                     background: snapshot.isDraggingOver ? 'lightblue' : '',
-                    // padding: 4,
+                    padding: 4,
                     width: 250,
 
                     maxHeight: '80vh',

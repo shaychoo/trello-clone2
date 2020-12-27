@@ -7,7 +7,7 @@ const LoginButton = () => {
     const login = useStoreActions(actions => actions.user.login);
 
     return (
-            <Button variant="outlined" color="primary" onClick={()=>{login(null)}}> Sign in with Google</Button>
+            <Button variant="outlined" color="inherit" onClick={()=>{login(null)}}> Sign in with Google</Button>
     )
 }
 

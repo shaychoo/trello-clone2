@@ -16,7 +16,7 @@ const EditableContent = (props) => {
     return () => {};
   }, [editMode]);
   return (
-    <>
+    <div style={{ margin: '10px' }}>
       <span
         hidden={editMode}
         onClick={() => {
@@ -42,7 +42,7 @@ const EditableContent = (props) => {
           setEditMode(!editMode);
         }}
       />
-    </>
+    </div>
   );
 };
 export default EditableContent;

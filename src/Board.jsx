@@ -58,13 +58,13 @@ function Board() {
                             {...provided.dragHandleProps}
                             style={{
                               userSelect: 'none',
-                              // padding: 16,
+                              padding: 16,
                               widht: '20%',
                               display: 'inline-block',
                               verticalAlign: 'top',
-
                               minHeight: '50px',
                               backgroundColor: '#ebecf0',
+                              marginRight: '10px',
                               // color: 'white',
                               ...provided.draggableProps.style,
                             }}>
@@ -79,17 +79,17 @@ function Board() {
                   );
                 })}
                 {provided.placeholder}
+
+                <button
+                  onClick={() => {
+                    addCol();
+                  }}>
+                  Add Column
+                </button>
               </div>
             );
           }}
         </Droppable>
-
-        <button
-          onClick={() => {
-            addCol();
-          }}>
-          Add Column
-        </button>
       </DragDropContext>
     </div>
   );

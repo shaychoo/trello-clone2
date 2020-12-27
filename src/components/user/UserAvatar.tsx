@@ -11,7 +11,7 @@ function UserAvatar() {
     const user = useStoreState<Partial<User>>(store=>{ return store.user.user });
     
     return (
-      user == undefined ?  <LoginButton />: <div><Avatar src={user.photoURL} ></Avatar> <SaveBoardButton /> </div>
+      user == undefined ?  <LoginButton />: <div><Avatar src={user.photoURL} ></Avatar>       {/* <SaveBoardButton /> */}       </div>
     
     )
 }
