@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import Task from './Task';
 import { useStoreActions } from './store';
 import EditableContent from './utils/EditableContent';
+import DeleteButton from './components/DeleteButton';
 
 const TaskColumn = (props) => {
   const deleteColumnAction = useStoreActions(
@@ -27,6 +28,7 @@ const TaskColumn = (props) => {
   const deleteTask = (itemId) => {
     deleteTaskAction({ columnId: props.columnId, itemId: itemId });
   };
+  const [mouseOver, setMouseOver] = useState(false);
 
   return (
     <>
@@ -42,7 +44,17 @@ const TaskColumn = (props) => {
           // marginRight: '15px',
           borderRadius: '3px',
         }}
-        key={props.columnId}>
+        key={props.columnId}
+        onMouseOver={() => {
+          setMouseOver(true);
+        }}
+        onMouseOut={() => {
+          setMouseOver(false);
+        }}>
+        <DeleteButton
+          visable={mouseOver}
+          ondDelete={() => deleteColumnAction(props.columnId)}
+        />
         <div style={{ margin: 8 }}>
           <EditableContent
             value={props.column.name}
@@ -85,9 +97,6 @@ const TaskColumn = (props) => {
           </Droppable>
           <button onClick={() => addTaskAction(props.columnId)}>
             add card
-          </button>
-          <button onClick={() => deleteColumnAction(props.columnId)}>
-            delete Col
           </button>
         </div>
       </div>

@@ -3,10 +3,10 @@ import { Draggable } from 'react-beautiful-dnd';
 import EditableContent from './utils/EditableContent';
 import { Clear as DeleteIcon } from '@material-ui/icons';
 import { Card, Fade } from '@material-ui/core';
+import DeleteButton from './components/DeleteButton';
 
 const Task = (props) => {
   const [mouseOver, setMouseOver] = useState(false);
-  const MouseOverHandler = () => {};
 
   const { item, index } = props;
   return (
@@ -32,13 +32,12 @@ const Task = (props) => {
               // color: 'white',
               ...provided.draggableProps.style,
             }}>
-            <Fade in={mouseOver}>
-              <DeleteIcon
-                style={{ float: 'right' }}
-                onClick={() => {
-                  props.deleteTask(props.item);
-                }}></DeleteIcon>
-            </Fade>
+            <DeleteButton
+              visable={mouseOver}
+              ondDelete={() => {
+                props.deleteTask(props.item);
+              }}
+            />
             <EditableContent
               value={item.content}
               noChange={(taskContent) => {
